@@ -61,12 +61,9 @@ if [ -f packages.config -o -f */packages.config ]; then
    find  -name packages.config | xargs mono $NUGET install -o packages
 fi
 
-if [ -f app.fsx ]; then
-  echo "-----> Compiling app.fsx"
-  mono /app/mono/lib/mono/4.5/fsc.exe app.fsx
-elif [ -f build.fsx ]; then
-   echo "-----> Compiling fake project"
-   mono packages/FAKE/tools/FAKE.exe --fsiargs -d:MONO build.fsx
+if [ -f build.fsx ]; then
+  echo "-----> Compiling build.fsx"
+  mono /app/mono/lib/mono/4.5/fsc.exe build.fsx
 elif [ -f *.sln ]; then
    echo "-----> Compiling application"
    mono $XBUILD
