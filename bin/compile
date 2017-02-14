@@ -63,7 +63,7 @@ fi
 
 if [ -f build.fsx ]; then
   echo "-----> Compiling build.fsx"
-  mono /app/mono/lib/mono/4.5/fsc.exe build.fsx
+  fsharpi-heroku build.fsx
 elif [ -f *.sln ]; then
    echo "-----> Compiling application"
    mono $XBUILD
