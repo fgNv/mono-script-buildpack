@@ -6,18 +6,15 @@ CACHE_DIR=$2
 ENV_DIR=$3
 LP_DIR=`cd $(dirname $0); cd ..; pwd`
 
-function export_env_dir {
-  echo "-----> exporting enviroment variables"
-  env_dir=$1
-  if [ -d "$env_dir" ]; then
-    for e in $(ls $env_dir); do
+echo "-----> reading environment folder ${ENV_DIR}"
+if [ -d "$ENV_DIR" ]; then
+    for e in $(ls $ENV_DIR); do
+      echo "-----> exposing variable ${e}"
       export "$e=$(cat $env_dir/$e)"
     done
-  fi
-}
-
-echo "-----> reading enviroment folder ${ENV_DIR}"
-export_env_dir ENV_DIR
+ else
+    echo "-----> environment folder not processed"
+ fi
 
 # fail fast
 set -e
