@@ -9,17 +9,14 @@ LP_DIR=`cd $(dirname $0); cd ..; pwd`
 function export_env_dir {
   echo "-----> exporting enviroment variables"
   env_dir=$1
-  blacklist_regex=${2:-'^(PATH|GIT_DIR|CPATH|CPPATH|LD_PRELOAD|LIBRARY_PATH)$'}
   if [ -d "$env_dir" ]; then
     for e in $(ls $env_dir); do
-      echo "$e"
-      echo "$e" | grep -qvE "$blacklist_regex" &&
       export "$e=$(cat $env_dir/$e)"
-      :
     done
   fi
 }
 
+echo "-----> reading enviroment folder ${ENV_DIR}"
 export_env_dir ENV_DIR
 
 # fail fast
