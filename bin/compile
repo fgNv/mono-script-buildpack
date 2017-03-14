@@ -3,24 +3,24 @@
 
 BUILD_DIR=$1
 CACHE_DIR=$2
+ENV_DIR=$3
 LP_DIR=`cd $(dirname $0); cd ..; pwd`
 
 function export_env_dir {
   echo "-----> exporting enviroment variables"
   env_dir=$1
-  whitelist_regex=${2:-''}
-  blacklist_regex=${3:-'^(PATH|GIT_DIR|CPATH|CPPATH|LD_PRELOAD|LIBRARY_PATH)$'}
+  blacklist_regex=${2:-'^(PATH|GIT_DIR|CPATH|CPPATH|LD_PRELOAD|LIBRARY_PATH)$'}
   if [ -d "$env_dir" ]; then
     for e in $(ls $env_dir); do
       echo "$e"
-      echo "$e" | grep -E "$whitelist_regex" | grep -qvE "$blacklist_regex" &&
+      echo "$e" | grep -qvE "$blacklist_regex" &&
       export "$e=$(cat $env_dir/$e)"
       :
     done
   fi
 }
 
-export_env_dir $1
+export_env_dir ENV_DIR
 
 # fail fast
 set -e
