@@ -11,12 +11,15 @@ export_env_dir() {
   blacklist_regex=${3:-'^(PATH|GIT_DIR|CPATH|CPPATH|LD_PRELOAD|LIBRARY_PATH)$'}
   if [ -d "$env_dir" ]; then
     for e in $(ls $env_dir); do
+      echo "$e=$(cat $env_dir/$e)"
       echo "$e" | grep -E "$whitelist_regex" | grep -qvE "$blacklist_regex" &&
       export "$e=$(cat $env_dir/$e)"
       :
     done
   fi
 }
+
+echo "-----> exporting enviroment variables"
 export_env_dir
 
 # fail fast
@@ -55,6 +58,7 @@ cp -p /app/mono/bin/fsharpi /app/mono/bin/fsharpi-heroku
 echo "-----> Setting envvars"
 export PATH="/app/mono/bin:$PATH"
 export LD_LIBRARY_PATH="/app/mono/lib:$LD_LIBRARY_PATH"
+
 echo "-----> Importing trusted root certificates"
 cert-sync --quiet --user /etc/ssl/certs/ca-certificates.crt
 
